@@ -267,19 +267,21 @@
         let XIAN23 = await imageRecognition(DIMAIHUA,1,0,0,1076,651,160,142);
         if ( (XIAN23.y+651)<=720){AutofilePath=3;log.info("找到线路'3'");await leftButtonUp();return true}//return true
         if ( (XIAN23.y+651)>720){AutofilePath=2;log.info("找到线路'2'");await leftButtonUp();return true}//return true
-        let XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){if(XIANmo.x<969){mo=0;}else if(XIANmo.x>1171){mo=2;}else{mo=1;}}
-        let XIAN1 = await imageRecognition(DIMAIHUA,1,0,0,714,633,130,124);if (XIAN1.found){AutofilePath=1;log.info("找到线路'1'");await leftButtonUp();return true}//return true
+        let XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){if(XIANmo.x<969){mo=0;}else if(XIANmo.x>1171){mo=2;}else{mo=1;}await leftButtonUp();;return false}
+        let XIAN1 = await imageRecognition(DIMAIHUA,1,0,0,714,633,130,124);if (XIAN1.found){AutofilePath=1;log.info("找到线路'1'");await leftButtonUp();;return true}//return true
         await moveMouseTo(132,583);
         await sleep(200);
         let XIAN4 = await imageRecognition(DIMAIHUA,1,0,0,884,497,107,87);if (XIAN4.found){AutofilePath=4;log.info("找到线路'4'");await leftButtonUp();return true}//return true
-        XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){mo=3}
+        XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){mo=3;await leftButtonUp();return false}
         await moveMouseTo(1064,1026);
         await sleep(200);
         let XIAN5 = await imageRecognition(DIMAIHUA,1,0,0,680,148,87,72);if (XIAN5.found){AutofilePath=5;log.info("找到线路'5'");await leftButtonUp();return true}//
-        XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){mo=4}else{mo=5}
-        AutofilePath =0;
-        await leftButtonUp();
-        return false
+        XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){if(XIANmo.x>420){mo=4;}else if(XIANmo.x<420){mo=5;}await leftButtonUp();;return false}
+        else{throw new Error("线路出错，退出！")}
+        
+        // AutofilePath =0;
+        // await leftButtonUp();
+        // return false
     }
 
     // 放大寻路模式
@@ -326,7 +328,6 @@
         }
         await genshin.returnMainUi();
         mo=0; //重置模糊量
-        log.info("111"); 
         return true;
     }
 
@@ -502,7 +503,7 @@
     if (Rewards){log.warn("结束后领励练点和提交每日！");if(settings.nh === undefined || settings.nh === "") {log.warn("好感队未配置，领奖励时不切换队伍")}}
     if (settings.nh === undefined || settings.nh === "") { log.warn("好感队禁用！");haoganq=0}else{var haogandui = settings.nh;haoganq=1;if(settings.n === undefined ) {throw new Error("好感队已经设置，请填战斗队伍！")}}
     if (settings.n === undefined || settings.n === "") { log.warn("队伍名称未配置，不更换队伍！");SHUOVER=1;}
-    if (SHUV === 1) {log.warn("线路模式 ：'单线路！'");}else{log.warn("线路模式 ：'树脂耗尽模式，强制打完整体线路！'");rawTimes=12}
+    if (SHUV == 1) {log.warn("线路模式 ：'单线路！'");}else{log.warn("线路模式 ：'树脂耗尽模式，强制打完整体线路！'");rawTimes=12}
     if (color == 1) {log.warn("地脉类型 ：'蓝色经验书花！'");}else{log.warn("地脉类型 ：'黄色摩拉花！'")}  
     let nowuidString = settings.nowuid ? settings.nowuid : "";
 
